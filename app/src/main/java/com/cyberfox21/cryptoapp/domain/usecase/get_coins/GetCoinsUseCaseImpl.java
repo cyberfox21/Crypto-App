@@ -13,7 +13,17 @@ import io.reactivex.rxjava3.core.Single;
 /**
  * @author t.shkolnik
  */
-public interface GetCoinsUseCase {
+public class GetCoinsUseCaseImpl implements GetCoinsUseCase {
 
-    Single<Resource<ArrayList<Coin>>> invoke();
+    private final CoinRepository repository;
+
+    @Inject
+    public GetCoinsUseCaseImpl(CoinRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public Single<Resource<ArrayList<Coin>>> invoke() {
+        return repository.getCoins();
+    }
 }
