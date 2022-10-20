@@ -5,49 +5,17 @@ package com.cyberfox21.cryptoapp.domain.entity;
  */
 public class Coin {
 
-    String id;
-    Boolean isActive;
-    String name;
-    int rank;
-    String symbol;
+    private String id;
+    private Boolean isActive;
+    private String name;
+    private int rank;
+    private String symbol;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+    public Coin(String id, Boolean isActive, String name, int rank, String symbol) {
         this.id = id;
-    }
-
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+        this.isActive = isActive;
         this.name = name;
-    }
-
-    public int getRank() {
-        return rank;
-    }
-
-    public void setRank(int rank) {
         this.rank = rank;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 }
