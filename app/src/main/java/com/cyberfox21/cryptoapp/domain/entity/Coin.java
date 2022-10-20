@@ -5,11 +5,11 @@ package com.cyberfox21.cryptoapp.domain.entity;
  */
 public class Coin {
 
-    private String id;
-    private Boolean isActive;
-    private String name;
-    private int rank;
-    private String symbol;
+    private final String id;
+    private final Boolean isActive;
+    private final String name;
+    private final int rank;
+    private final String symbol;
 
     public Coin(String id, Boolean isActive, String name, int rank, String symbol) {
         this.id = id;
@@ -17,5 +17,25 @@ public class Coin {
         this.name = name;
         this.rank = rank;
         this.symbol = symbol;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 }
