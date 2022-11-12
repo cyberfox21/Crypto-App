@@ -2,6 +2,9 @@ package com.cyberfox21.cryptoapp.data.dto;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * @author t.shkolnik
+ */
 public class CoinDto {
 
     private String id;

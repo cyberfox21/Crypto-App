@@ -6,6 +6,15 @@ package com.cyberfox21.cryptoapp.common;
 public abstract class Resource<T> {
 
     T data = null;
+
+    public T getData() {
+        return data;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
     String message = null;
 
     public final static class Success<T> extends Resource<T> {

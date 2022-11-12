@@ -1,6 +1,8 @@
 package com.cyberfox21.cryptoapp.data.remote;
 
 import com.cyberfox21.cryptoapp.common.Resource;
+import com.cyberfox21.cryptoapp.data.dto.CoinDetailDto;
+import com.cyberfox21.cryptoapp.data.dto.CoinDto;
 import com.cyberfox21.cryptoapp.domain.entity.Coin;
 import com.cyberfox21.cryptoapp.domain.entity.CoinDetail;
 
@@ -15,8 +17,8 @@ import retrofit2.http.GET;
 public interface CoinPaprikaApi {
 
     @GET("/v1/coins")
-    Single<Resource<ArrayList<Coin>>> getCoins();
+    Single<Resource<ArrayList<CoinDto>>> getCoins();
 
     @GET("/v1/coins/{coinId}")
-    Single<Resource<CoinDetail>> getCoinById(String coinId);
+    Single<Resource<CoinDetailDto>> getCoinById(String coinId);
 }

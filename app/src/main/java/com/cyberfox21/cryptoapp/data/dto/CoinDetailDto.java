@@ -5,6 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+/**
+ * @author t.shkolnik
+ */
 public class CoinDetailDto {
 
     String description;

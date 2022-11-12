@@ -1,6 +1,7 @@
 package com.cyberfox21.cryptoapp.di;
 
 import com.cyberfox21.cryptoapp.common.Constants;
+import com.cyberfox21.cryptoapp.data.mapper.DtoToDomainMapper;
 import com.cyberfox21.cryptoapp.data.remote.CoinPaprikaApi;
 import com.cyberfox21.cryptoapp.data.repository.CoinRepositoryImpl;
 import com.cyberfox21.cryptoapp.domain.repository.CoinRepository;
@@ -15,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @author t.shkolnik
  */
 @Module
-public abstract class NetworkModule {
+public abstract class DataModule {
 
     @Provides
     static CoinPaprikaApi provideCoinPaprikaApi() {
@@ -26,8 +27,9 @@ public abstract class NetworkModule {
                 .create(CoinPaprikaApi.class);
     }
 
-    @Provides
-    static CoinRepository provideCoinRepository(CoinRepositoryImpl impl){
-        return impl;
-    }
+    @Binds
+    public abstract CoinRepository provideCoinRepository(CoinRepositoryImpl impl);
+
+    @Binds
+    public abstract DtoToDomainMapper provideDtoToDomainMapper(DtoToDomainMapper impl);
 }

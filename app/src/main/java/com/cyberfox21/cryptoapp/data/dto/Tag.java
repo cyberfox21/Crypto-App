@@ -1,5 +1,8 @@
 package com.cyberfox21.cryptoapp.data.dto;
 
+/**
+ * @author t.shkolnik
+ */
 public class Tag {
 
     int coin_counter;
