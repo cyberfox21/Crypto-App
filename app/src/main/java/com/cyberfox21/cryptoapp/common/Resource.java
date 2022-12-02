@@ -3,9 +3,14 @@ package com.cyberfox21.cryptoapp.common;
 /**
  * @author t.shkolnik
  */
-public abstract class Resource<T> {
+public class Resource<T> {
 
     T data = null;
+
+    String message = null;
+
+    public Resource() {
+    }
 
     public T getData() {
         return data;
@@ -15,11 +20,10 @@ public abstract class Resource<T> {
         return message;
     }
 
-    String message = null;
-
     public final static class Success<T> extends Resource<T> {
 
         public Success(T data) {
+            super();
             this.data = data;
         }
     }
@@ -27,9 +31,14 @@ public abstract class Resource<T> {
     public final static class Error<T> extends Resource<T> {
 
         public Error(String message) {
+            super();
             this.message = message;
         }
     }
 
-    public final static class Loading<T> extends Resource<T> {}
+    public final static class Loading<T> extends Resource<T> {
+        public Loading() {
+            super();
+        }
+    }
 }

@@ -7,7 +7,13 @@ import com.cyberfox21.cryptoapp.domain.entity.CoinDetail;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 public class DtoToDomainMapperImpl implements DtoToDomainMapper {
+
+    @Inject
+    public DtoToDomainMapperImpl() {
+    }
 
     @Override
     public CoinDetail toCoinDetail(CoinDetailDto coinDetailDto) {

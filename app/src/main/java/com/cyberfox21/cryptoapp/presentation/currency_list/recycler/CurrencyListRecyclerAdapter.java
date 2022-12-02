@@ -1,5 +1,6 @@
 package com.cyberfox21.cryptoapp.presentation.currency_list.recycler;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -41,7 +42,11 @@ public class CurrencyListRecyclerAdapter extends ListAdapter<Coin, CurrencyListI
         } else {
             isActive = "inactive";
         }
-        binding.title.setText("${coin.rank}. ${coin.name} (${coin.symbol})");
+        String title = coin.getRank() + " " + coin.getName() + " " + coin.getSymbol();
+        binding.title.setText(title);
+        int activeTextColor = coin.getActive() ? Color.GREEN : Color.RED;
+
+        binding.active.setTextColor(activeTextColor);
         binding.active.setText(isActive);
     }
 }

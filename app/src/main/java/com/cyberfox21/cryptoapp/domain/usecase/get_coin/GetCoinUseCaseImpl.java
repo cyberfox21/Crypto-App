@@ -20,6 +20,7 @@ public class GetCoinUseCaseImpl implements GetCoinUseCase {
         this.repository = repository;
     }
 
+    @Override
     public Single<Resource<CoinDetail>> invoke(String id) {
         return repository.getCoinById(id);
     }

@@ -1,8 +1,6 @@
 package com.cyberfox21.cryptoapp.data.repository;
 
 import com.cyberfox21.cryptoapp.common.Resource;
-import com.cyberfox21.cryptoapp.data.dto.CoinDetailDto;
-import com.cyberfox21.cryptoapp.data.dto.CoinDto;
 import com.cyberfox21.cryptoapp.data.mapper.DtoToDomainMapper;
 import com.cyberfox21.cryptoapp.data.remote.CoinPaprikaApi;
 import com.cyberfox21.cryptoapp.domain.entity.Coin;
@@ -17,8 +15,8 @@ import io.reactivex.rxjava3.core.Single;
 
 public class CoinRepositoryImpl implements CoinRepository {
 
-    private CoinPaprikaApi api;
-    private DtoToDomainMapper mapper;
+    private final CoinPaprikaApi api;
+    private final DtoToDomainMapper mapper;
 
     @Inject
     public CoinRepositoryImpl(CoinPaprikaApi api, DtoToDomainMapper mapper) {
@@ -28,15 +26,16 @@ public class CoinRepositoryImpl implements CoinRepository {
 
     @Override
     public Single<Resource<ArrayList<Coin>>> getCoins() {
-        ArrayList<Coin> coinsList = new ArrayList<Coin>();
+        ArrayList<Coin> coinsList = new ArrayList<>();
         return api.getCoins()
-                .flatMap(resource ->
+                .flatMap(coinDtos ->
                         {
-                            ArrayList<CoinDto> coinsDto = resource.getData();
-                            for (int i = 0; i < coinsDto.size(); i++) {
-                                coinsList.add(mapper.toCoin(coinsDto.get(i)));
+                            for (int i = 0; i < coinDtos.size(); i++) {
+                                coinsList.add(mapper.toCoin(coinDtos.get(i)));
                             }
-                            return Single.just(new Resource.Success<ArrayList<Coin>>(coinsList));
+                            return Single.just(
+                                    new Resource.Success<>(coinsList)
+                            );
                         }
                 );
     }
@@ -44,12 +43,9 @@ public class CoinRepositoryImpl implements CoinRepository {
     @Override
     public Single<Resource<CoinDetail>> getCoinById(String coinId) {
         return api.getCoinById(coinId).flatMap(
-                resource -> {
-                    CoinDetailDto coinDetailDto = resource.getData();
-                    return Single.just(
-                            new Resource.Success<CoinDetail>(mapper.toCoinDetail(coinDetailDto))
-                    );
-                }
+                coinDetailDto -> Single.just(
+                        new Resource.Success<>(mapper.toCoinDetail(coinDetailDto))
+                )
         );
     }
 }
