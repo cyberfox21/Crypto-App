@@ -17,17 +17,9 @@ import com.cyberfox21.cryptoapp.databinding.FragmentCurrencyDetailBinding;
  */
 public class CurrencyDetailFragment extends Fragment {
 
-    private FragmentCurrencyDetailBinding _binding;
-    public FragmentCurrencyDetailBinding binding;
+    private FragmentCurrencyDetailBinding binding;
 
-    public FragmentCurrencyDetailBinding getBinding() {
-        return _binding;
-    }
-
-    CurrencyDetailViewModel viewModel = new ViewModelProvider(
-            this,
-            ViewModelProvider.Factory.from(CurrencyDetailViewModel.initializer)
-    ).get(CurrencyDetailViewModel.class);
+    CurrencyDetailViewModel viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,19 +33,23 @@ public class CurrencyDetailFragment extends Fragment {
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState
     ) {
-        _binding = FragmentCurrencyDetailBinding.inflate(inflater, container, false);
+        binding = FragmentCurrencyDetailBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(
+                this,
+                ViewModelProvider.Factory.from(CurrencyDetailViewModel.initializer)
+        ).get(CurrencyDetailViewModel.class);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        _binding = null;
+        binding = null;
     }
 
     @Override
