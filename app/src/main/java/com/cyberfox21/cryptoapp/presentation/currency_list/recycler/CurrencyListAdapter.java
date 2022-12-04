@@ -1,36 +1,30 @@
 package com.cyberfox21.cryptoapp.presentation.currency_list.recycler;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cyberfox21.cryptoapp.R;
 import com.cyberfox21.cryptoapp.databinding.ItemCurrencyListBinding;
 import com.cyberfox21.cryptoapp.domain.entity.Coin;
+import com.cyberfox21.cryptoapp.presentation.common.DelegateAdapter;
+import com.cyberfox21.cryptoapp.presentation.common.DelegateItem;
 
 /**
  * @author t.shkolnik
  */
-public class CurrencyListRecyclerAdapter extends ListAdapter<Coin, CurrencyListItemViewHolder> {
+public class CurrencyListAdapter implements DelegateAdapter {
 
     CurrencyItemClickListener listener;
-
-    public CurrencyListRecyclerAdapter(@NonNull CurrencyListDiffUtilCallback diffCallback) {
-        super(diffCallback);
-    }
 
     public void setListener(CurrencyItemClickListener listener) {
         this.listener = listener;
     }
 
-    @NonNull
     @Override
-    public CurrencyListItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent) {
         ItemCurrencyListBinding binding = ItemCurrencyListBinding.inflate(
                 LayoutInflater.from(parent.getContext())
         );
@@ -42,11 +36,14 @@ public class CurrencyListRecyclerAdapter extends ListAdapter<Coin, CurrencyListI
         return new CurrencyListItemViewHolder(binding);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onBindViewHolder(@NonNull CurrencyListItemViewHolder holder, int position) {
-        ItemCurrencyListBinding binding = holder.getBinding();
-        Coin coin = getCurrentList().get(position);
+    public void onBindViewHolder(
+            RecyclerView.ViewHolder viewHolder,
+            DelegateItem model,
+            int position
+    ) {
+        ItemCurrencyListBinding binding = ((CurrencyListItemViewHolder) viewHolder).getBinding();
+        Coin coin = (Coin) model.getContent();
         String isActive;
         if (coin.getActive()) {
             isActive = "active";
@@ -56,9 +53,17 @@ public class CurrencyListRecyclerAdapter extends ListAdapter<Coin, CurrencyListI
         String title = coin.getRank() + ". " + coin.getName() + " " + coin.getSymbol();
         binding.title.setText(title);
         int activeTextColor = coin.getActive() ?
-                holder.itemView.getContext().getColor(R.color.primary) : Color.RED;
+                viewHolder.itemView
+                        .getContext()
+                        .getResources()
+                        .getColor(R.color.primary) : Color.RED;
 
         binding.active.setTextColor(activeTextColor);
         binding.active.setText(isActive);
+    }
+
+    @Override
+    public boolean isCorrectViewType(DelegateItem item) {
+        return item instanceof CoinDelegateItem;
     }
 }

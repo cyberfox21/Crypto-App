@@ -12,6 +12,10 @@ public class Resource<T> {
     public Resource() {
     }
 
+    public void setData(T data) {
+        this.data = data;
+    }
+
     public T getData() {
         return data;
     }
@@ -26,6 +30,7 @@ public class Resource<T> {
             super();
             this.data = data;
         }
+
     }
 
     public final static class Error<T> extends Resource<T> {

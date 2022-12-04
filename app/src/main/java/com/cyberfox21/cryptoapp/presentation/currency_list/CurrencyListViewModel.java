@@ -8,10 +8,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.cyberfox21.cryptoapp.common.Resource;
-import com.cyberfox21.cryptoapp.domain.entity.Coin;
 import com.cyberfox21.cryptoapp.domain.usecase.get_coins.GetCoinsUseCase;
+import com.cyberfox21.cryptoapp.presentation.currency_list.recycler.CoinDelegateItem;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -52,8 +53,15 @@ public class CurrencyListViewModel extends ViewModel implements LifecycleObserve
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         arrayListResource -> {
-                            coins.setValue((Resource.Success<ArrayList<Coin>>) arrayListResource);
-                            Log.e("CurrencyListViewModel", String.valueOf(arrayListResource.getData()));
+                            List<CoinDelegateItem> listItems =
+                                    new ListItemsMapper().map(arrayListResource.getData());
+                            Resource.Success<ArrayList<CoinDelegateItem>> result =
+                                    new Resource.Success(listItems);
+                            coins.setValue((Resource.Success<ArrayList<CoinDelegateItem>>) result);
+                            Log.e(
+                                    "CurrencyListViewModel",
+                                    String.valueOf(arrayListResource.getData())
+                            );
                         },
                         throwable -> {
                             coins.setValue(new Resource.Error<Throwable>(

@@ -5,9 +5,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cyberfox21.cryptoapp.databinding.ItemCurrencyListBinding;
 
+/**
+ * @author t.shkolnik
+ */
 public class CurrencyListItemViewHolder extends RecyclerView.ViewHolder {
 
-    private ItemCurrencyListBinding binding;
+    private final ItemCurrencyListBinding binding;
 
     public CurrencyListItemViewHolder(@NonNull ItemCurrencyListBinding binding) {
         super(binding.getRoot());

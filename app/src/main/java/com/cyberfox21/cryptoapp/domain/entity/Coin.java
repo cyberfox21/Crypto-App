@@ -1,9 +1,11 @@
 package com.cyberfox21.cryptoapp.domain.entity;
 
+import com.cyberfox21.cryptoapp.common.recycler.JavaDataClass;
+
 /**
  * @author t.shkolnik
  */
-public class Coin {
+public class Coin implements JavaDataClass<Coin> {
 
     private final String id;
     private final Boolean isActive;
@@ -37,5 +39,14 @@ public class Coin {
 
     public String getSymbol() {
         return symbol;
+    }
+
+    @Override
+    public boolean isEquals(Coin newObject) {
+        return this.id.equals(newObject.id) &&
+                this.name.equals(newObject.name) &&
+                this.symbol.equals(newObject.symbol) &&
+                this.rank == newObject.rank &&
+                this.isActive.equals(newObject.isActive);
     }
 }

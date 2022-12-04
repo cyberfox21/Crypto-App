@@ -1,19 +1,22 @@
 package com.cyberfox21.cryptoapp.domain.entity;
 
+import com.cyberfox21.cryptoapp.common.recycler.JavaDataClass;
+
 import java.util.ArrayList;
 
 /**
  * @author t.shkolnik
  */
-public class CoinDetail {
+public class CoinDetail implements JavaDataClass<CoinDetail> {
 
-    private String coinId;
-    private String name;
-    private String description;
-    private String symbol;
-    private int rank;
-    private Boolean isActive;
-    private ArrayList<String> tags;
+    private final String coinId;
+    private final String name;
+    private final String description;
+    private final String symbol;
+    private final int rank;
+    private final Boolean isActive;
+    private final ArrayList<String> tags;
+    private final ArrayList<TeamMember> team;
 
     public CoinDetail(String coinId, String name, String description, String symbol, int rank, Boolean isActive, ArrayList<String> tags, ArrayList<TeamMember> team) {
         this.coinId = coinId;
@@ -26,5 +29,15 @@ public class CoinDetail {
         this.team = team;
     }
 
-    private ArrayList<TeamMember> team;
+    @Override
+    public boolean isEquals(CoinDetail newObject) {
+        return this.coinId.equals(newObject.coinId) &&
+                this.isActive.equals(newObject.isActive) &&
+                this.name.equals(newObject.name) &&
+                this.rank == newObject.rank &&
+                this.symbol.equals(newObject.symbol) &&
+                this.description.equals(newObject.description) &&
+                this.tags.equals(newObject.tags) &&
+                this.team.equals(newObject.team);
+    }
 }

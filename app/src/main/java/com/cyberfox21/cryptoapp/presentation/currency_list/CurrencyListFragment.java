@@ -8,19 +8,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.cyberfox21.cryptoapp.common.Resource;
 import com.cyberfox21.cryptoapp.databinding.FragmentCurrencyListBinding;
-import com.cyberfox21.cryptoapp.domain.entity.Coin;
+import com.cyberfox21.cryptoapp.presentation.common.BaseDiffUtilCallback;
 import com.cyberfox21.cryptoapp.presentation.common.CurrencyListViewModelFactory;
+import com.cyberfox21.cryptoapp.presentation.common.DelegateItem;
+import com.cyberfox21.cryptoapp.presentation.common.MainDelegateAdapter;
 import com.cyberfox21.cryptoapp.presentation.currency_detail.CurrencyDetailFragment;
-import com.cyberfox21.cryptoapp.presentation.currency_list.recycler.CurrencyListDiffUtilCallback;
-import com.cyberfox21.cryptoapp.presentation.currency_list.recycler.CurrencyListRecyclerAdapter;
+import com.cyberfox21.cryptoapp.presentation.currency_list.recycler.CurrencyListAdapter;
 import com.cyberfox21.cryptoapp.presentation.navigation.NavigationHolder;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -32,9 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class CurrencyListFragment extends Fragment {
 
-    CurrencyListRecyclerAdapter adapter = new CurrencyListRecyclerAdapter(
-            new CurrencyListDiffUtilCallback()
-    );
+    MainDelegateAdapter adapter;
 
     private FragmentCurrencyListBinding binding;
 
@@ -64,7 +62,6 @@ public class CurrencyListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setupViewModel();
         setupRecyclerView();
-        addListeners();
         observeViewModel();
     }
 
@@ -74,11 +71,15 @@ public class CurrencyListFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
+        adapter = new MainDelegateAdapter(new BaseDiffUtilCallback());
+        addDelegates();
         binding.recyclerView.setAdapter(adapter);
     }
 
-    private void addListeners() {
-        adapter.setListener(this::navigateToDetails);
+    private void addDelegates() {
+        CurrencyListAdapter currencyListAdapter = new CurrencyListAdapter();
+        currencyListAdapter.setListener(this::navigateToDetails);
+        adapter.addDelegate(currencyListAdapter);
     }
 
     private void navigateToDetails() {
@@ -93,7 +94,7 @@ public class CurrencyListFragment extends Fragment {
         viewModel.getCoins().observe(getViewLifecycleOwner(), resource -> {
             String text;
             if (resource instanceof Resource.Success) {
-                adapter.submitList((ArrayList<Coin>) (resource.getData()));
+                adapter.submitList((List<DelegateItem>) resource.getData());
             } else if (resource instanceof Resource.Loading) {
                 text = resource.getMessage() + " loading";
 //                    binding.textView.setText(text);
