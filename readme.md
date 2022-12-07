@@ -6,6 +6,7 @@ Simple app about cryptocurrency used https://coinpaprika.com/ api
 - Adapter Delegate pattern with DiffUtil
 - Single Activity
 - MVVM
+- Flexbox layout
 - Dagger Hilt
 - Retrofit
 - RxJava
