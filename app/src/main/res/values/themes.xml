@@ -2,8 +2,10 @@
 
     <style name="Theme.CryptoApp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorSecondary">@color/black</item>
-        <item name="android:background">@color/black</item>
+        <item name="colorSecondary">@color/primary</item>
+        <item name="android:background">@color/dark_gray</item>
+        <item name="android:statusBarColor">@color/dark_gray</item>
+        <item name="android:navigationBarColor">@color/dark_gray</item>
     </style>
 
     <style name="Theme.CryptoApp.NoActionBar">
@@ -14,4 +16,12 @@
     <style name="Theme.CryptoApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.CryptoApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Progress">
+        <item name="colorAccent">@color/text_white</item>
+        <item name="colorSecondary">@color/primary</item>
+        <item name="android:progressTint">@color/primary</item>
+        <item name="android:indeterminateTintMode">src_atop</item>
+        <item name="android:indeterminateTint">@color/primary</item>
+    </style>
 </resources>

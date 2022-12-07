@@ -1,4 +1,4 @@
-package com.cyberfox21.cryptoapp.common.recycler;
+package com.cyberfox21.cryptoapp.common;
 
 /**
  * @author t.shkolnik

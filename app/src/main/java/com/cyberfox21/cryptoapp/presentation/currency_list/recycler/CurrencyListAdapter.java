@@ -28,11 +28,12 @@ public class CurrencyListAdapter implements DelegateAdapter {
         ItemCurrencyListBinding binding = ItemCurrencyListBinding.inflate(
                 LayoutInflater.from(parent.getContext())
         );
-        binding.getRoot().setOnClickListener(v -> listener.onCurrencyClick());
+
         binding.getRoot().setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
         );
+
         return new CurrencyListItemViewHolder(binding);
     }
 
@@ -60,6 +61,7 @@ public class CurrencyListAdapter implements DelegateAdapter {
 
         binding.active.setTextColor(activeTextColor);
         binding.active.setText(isActive);
+        binding.getRoot().setOnClickListener(v -> listener.onCurrencyClick(coin.getId()));
     }
 
     @Override

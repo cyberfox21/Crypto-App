@@ -14,7 +14,7 @@ public class ListItemsMapper {
     List<CoinDelegateItem> map(List<Coin> coins) {
         List<CoinDelegateItem> list = new ArrayList<>();
         for (Coin coin : coins) {
-            list.add(new CoinDelegateItem(coin.getId(), coin));
+            list.add(new CoinDelegateItem(coin));
         }
         return list;
     }

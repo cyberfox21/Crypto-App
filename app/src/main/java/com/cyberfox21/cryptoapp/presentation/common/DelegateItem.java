@@ -1,6 +1,6 @@
 package com.cyberfox21.cryptoapp.presentation.common;
 
-import com.cyberfox21.cryptoapp.common.recycler.JavaDataClass;
+import com.cyberfox21.cryptoapp.common.JavaDataClass;
 
 /**
  * @author t.shkolnik

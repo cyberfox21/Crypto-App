@@ -1,7 +1,5 @@
 package com.cyberfox21.cryptoapp.presentation.currency_list;
 
-import android.util.Log;
-
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -57,18 +55,12 @@ public class CurrencyListViewModel extends ViewModel implements LifecycleObserve
                                     new ListItemsMapper().map(arrayListResource.getData());
                             Resource.Success<ArrayList<CoinDelegateItem>> result =
                                     new Resource.Success(listItems);
-                            coins.setValue((Resource.Success<ArrayList<CoinDelegateItem>>) result);
-                            Log.e(
-                                    "CurrencyListViewModel",
-                                    String.valueOf(arrayListResource.getData())
-                            );
+                            coins.setValue(result);
                         },
-                        throwable -> {
-                            coins.setValue(new Resource.Error<Throwable>(
-                                    throwable + " error occurred when receiving coins")
-                            );
-                            Log.e("CurrencyListViewModel", String.valueOf(throwable));
-                        }
+                        throwable -> coins.setValue(new Resource.Error<Throwable>(
+                                throwable + " error occurred when receiving coins")
+                        )
+
                 );
 
         disposables.add(disposable);

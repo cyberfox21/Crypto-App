@@ -1,6 +1,6 @@
 package com.cyberfox21.cryptoapp.domain.entity;
 
-import com.cyberfox21.cryptoapp.common.recycler.JavaDataClass;
+import com.cyberfox21.cryptoapp.common.JavaDataClass;
 
 import java.util.ArrayList;
 
@@ -17,6 +17,38 @@ public class CoinDetail implements JavaDataClass<CoinDetail> {
     private final Boolean isActive;
     private final ArrayList<String> tags;
     private final ArrayList<TeamMember> team;
+
+    public String getCoinId() {
+        return coinId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public ArrayList<TeamMember> getTeam() {
+        return team;
+    }
 
     public CoinDetail(String coinId, String name, String description, String symbol, int rank, Boolean isActive, ArrayList<String> tags, ArrayList<TeamMember> team) {
         this.coinId = coinId;

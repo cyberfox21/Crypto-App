@@ -27,14 +27,23 @@ public class MainActivity extends AppCompatActivity implements NavigationHolder 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        navigateTo(CurrencyListFragment.newInstance());
+        replaceFragment(CurrencyListFragment.newInstance());
     }
 
     @Override
-    public void navigateTo(Fragment fragment) {
+    public void replaceFragment(Fragment fragment) {
         int fragment_container_id = R.id.fragment_container;
         getSupportFragmentManager().beginTransaction()
                 .replace(fragment_container_id, fragment)
+                .commitAllowingStateLoss();
+    }
+
+    @Override
+    public void addFragment(Fragment fragment, String tag) {
+        int fragment_container_id = R.id.fragment_container;
+        getSupportFragmentManager().beginTransaction()
+                .addToBackStack(tag)
+                .add(fragment_container_id, fragment, tag)
                 .commitAllowingStateLoss();
     }
 }

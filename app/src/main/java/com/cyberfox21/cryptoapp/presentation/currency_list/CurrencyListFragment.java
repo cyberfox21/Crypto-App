@@ -12,11 +12,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.cyberfox21.cryptoapp.common.Resource;
 import com.cyberfox21.cryptoapp.databinding.FragmentCurrencyListBinding;
+import com.cyberfox21.cryptoapp.di.CurrencyListViewModelFactory;
 import com.cyberfox21.cryptoapp.presentation.common.BaseDiffUtilCallback;
-import com.cyberfox21.cryptoapp.presentation.common.CurrencyListViewModelFactory;
 import com.cyberfox21.cryptoapp.presentation.common.DelegateItem;
 import com.cyberfox21.cryptoapp.presentation.common.MainDelegateAdapter;
 import com.cyberfox21.cryptoapp.presentation.currency_detail.CurrencyDetailFragment;
+import com.cyberfox21.cryptoapp.presentation.currency_list.recycler.CurrencyItemClickListener;
 import com.cyberfox21.cryptoapp.presentation.currency_list.recycler.CurrencyListAdapter;
 import com.cyberfox21.cryptoapp.presentation.navigation.NavigationHolder;
 
@@ -32,6 +33,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 @AndroidEntryPoint
 public class CurrencyListFragment extends Fragment {
 
+    private static final String TAG = "CurrencyListFragment";
+
     MainDelegateAdapter adapter;
 
     private FragmentCurrencyListBinding binding;
@@ -40,6 +43,8 @@ public class CurrencyListFragment extends Fragment {
     CurrencyListViewModelFactory viewModelFactory;
 
     private CurrencyListViewModel viewModel;
+
+    private CurrencyItemClickListener listener = id -> navigateToDetails(id);
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +68,7 @@ public class CurrencyListFragment extends Fragment {
         setupViewModel();
         setupRecyclerView();
         observeViewModel();
+        addListeners();
     }
 
     private void setupViewModel() {
@@ -78,34 +84,52 @@ public class CurrencyListFragment extends Fragment {
 
     private void addDelegates() {
         CurrencyListAdapter currencyListAdapter = new CurrencyListAdapter();
-        currencyListAdapter.setListener(this::navigateToDetails);
+        currencyListAdapter.setListener(listener);
         adapter.addDelegate(currencyListAdapter);
     }
 
-    private void navigateToDetails() {
+    private void navigateToDetails(String id) {
         NavigationHolder navigator = ((NavigationHolder) getActivity());
         if (navigator != null) {
-            navigator.navigateTo(CurrencyDetailFragment.newInstance());
+            navigator.addFragment(CurrencyDetailFragment.newInstance(id), TAG);
         }
     }
 
     private void observeViewModel() {
         viewModel.requestCoins();
         viewModel.getCoins().observe(getViewLifecycleOwner(), resource -> {
-            String text;
             if (resource instanceof Resource.Success) {
+                showList();
                 adapter.submitList((List<DelegateItem>) resource.getData());
             } else if (resource instanceof Resource.Loading) {
-                text = resource.getMessage() + " loading";
-//                    binding.textView.setText(text);
-            } else if (resource instanceof Resource.Error) {
-                text = resource.getMessage() + " error";
-//                    binding.textView.setText(text);
+                showLoading();
             } else {
-                text = "unknown";
-//                    binding.textView.setText(text);
+                showError();
             }
         });
+    }
+
+    private void addListeners() {
+        binding.errorLayout.btnNetwork.setOnClickListener(v -> viewModel.requestCoins());
+    }
+
+    private void showList() {
+        binding.progressBar.setVisibility(View.INVISIBLE);
+        binding.recyclerView.setVisibility(View.VISIBLE);
+        binding.errorLayout.getRoot().setVisibility(View.INVISIBLE);
+    }
+
+    private void showLoading() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.recyclerView.setVisibility(View.INVISIBLE);
+        binding.errorLayout.getRoot().setVisibility(View.INVISIBLE);
+    }
+
+    private void showError() {
+        binding.progressBar.animate();
+        binding.progressBar.setVisibility(View.INVISIBLE);
+        binding.recyclerView.setVisibility(View.INVISIBLE);
+        binding.errorLayout.getRoot().setVisibility(View.VISIBLE);
     }
 
     @Override

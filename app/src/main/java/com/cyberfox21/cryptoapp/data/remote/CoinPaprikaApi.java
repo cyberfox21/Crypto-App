@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * @author t.shkolnik
@@ -17,5 +18,5 @@ public interface CoinPaprikaApi {
     Single<ArrayList<CoinDto>> getCoins();
 
     @GET("/v1/coins/{coinId}")
-    Single<CoinDetailDto> getCoinById(String coinId);
+    Single<CoinDetailDto> getCoinById(@Path("coinId") String coinId);
 }
